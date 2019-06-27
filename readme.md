@@ -1,6 +1,6 @@
-composer update
-cp .env.example .env
-php artisan key:generate
+composer update<br>
+cp .env.example .env <br>
+php artisan key:generate <br>
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
