@@ -1,6 +1,8 @@
 composer update<br>
 cp .env.example .env <br>
 php artisan key:generate <br>
+ php artisan migrate:fresh <br>
+ php artisan db:seed <br>
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
