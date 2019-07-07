@@ -19,8 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 Route::group(['middleware' => ['auth']], function () {
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard.home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::get('/resetpassword', 'ResetpasswordController@index');
 Route::put('/resetpassword/save', 'ResetpasswordController@store');
@@ -69,6 +70,14 @@ Route::group(['prefix' => 'admin'], function(){
 ///////////////////////////////////////////////////////////////////////////////////////////////        
         Route::get('/group-config', 'Admin\GroupController@index');
         Route::get('/group-config/data', 'Admin\GroupController@data');
+        
+        Route::get('/group-config/create', 'Admin\GroupController@getCreate');
+        Route::post('/group-config/create', 'Admin\GroupController@macCreate');
+
+        Route::get('/group-config/{id}/edit', 'Admin\GroupController@getEdit');
+        Route::post('/group-config/{id}/edit', 'Admin\GroupController@saveEdit');
+
+        Route::get('/group-config/{id}/delete', 'Admin\GroupController@destroy');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
         Route::get('/mac-auth', 'Admin\MacauthController@index');
@@ -85,6 +94,14 @@ Route::group(['prefix' => 'admin'], function(){
 //////////////////////////////////////////////////////////////////////////////////////////////
         Route::get('/guest-config', 'Admin\GuestController@index');
         Route::get('/guest-config/data', 'Admin\GuestController@data');
+
+        Route::get('/guest-config/create', 'Admin\GuestController@getCreate');
+        Route::post('/guest-config/create', 'Admin\GuestController@postCreate');
+
+        Route::get('/guest-config/{id}/edit', 'Admin\GuestController@getEdit');
+        Route::post('/guest-config/{id}/edit', 'Admin\GuestController@saveEdit');
+
+        Route::get('/guest-config/{id}/delete', 'Admin\GuestController@destroy');
     });
 });
 
