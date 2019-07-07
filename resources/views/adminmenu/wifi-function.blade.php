@@ -72,6 +72,7 @@ $('#allwifiuser').on('draw.dt', function () {
             { data: 'password', name: 'password' },
             { data: 'Description', name: 'Description','searchable': false, 'orderable': false },
             { data: 'qty', name: 'qty' },
+            { data: 'functionend', name: 'functionend' },
             { data: 'sale', name: 'sale' },
             { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                        
           ]  
@@ -114,7 +115,8 @@ $(".fancybox").fancybox({
                     <th>User Name</th>
                     <th>Password</th>
                     <th>Speed</th>
-                    <th>Max User Login</th>
+                    <th>Max User</th>
+                    <th>Expiry Date</th>
                     <th>Sales Name</th>
                     <th>Action</th>
                 </tr>

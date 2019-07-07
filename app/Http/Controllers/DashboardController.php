@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use Datatables;
 use DB;
-//use RouterOS\Config;
-//use RouterOS\Client;
-//use RouterOS\Query;
+use RouterOS\Config;
+use RouterOS\Client;
+use RouterOS\Query;
 
 class DashboardController extends Controller
 {
@@ -21,14 +21,14 @@ class DashboardController extends Controller
     {
         $loginsuccess = array(0,0,0,0,0,0,0,0,0,0,0,0);
         $loginfail = array(0,0,0,0,0,0,0,0,0,0,0,0);
-        $loginstat =  DB::connection('mysql4')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Reject\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
+        $loginstat =  DB::connection('mysql3')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Reject\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
 
         foreach ($loginstat as $a):
             $loginfail[$a->m] = $a->c; 
         endforeach;
         $loginstatfail = implode(",",$loginfail);
 
-        $loginstat =  DB::connection('mysql4')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Accept\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
+        $loginstat =  DB::connection('mysql3')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Accept\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
 
         foreach ($loginstat as $a):
             $loginsuccess[$a->m] = $a->c; 
@@ -39,34 +39,34 @@ class DashboardController extends Controller
 $lobby_host = \Config::get('mt.mt_host');
 $lobby_user = \Config::get('mt.mt_user');
 $lobby_pass = \Config::get('mt.mt_pass');
-//        $lobby =
-//        (new Config())
-//            ->set('host', $lobby_host)
-//            ->set('user', $lobby_user)
-//            ->set('pass', $lobby_pass);
+        $lobby =
+        (new Config())
+        ->set('host', $lobby_host)
+        ->set('user', $lobby_user)
+        ->set('pass', $lobby_pass);
 
         // Initiate client with config object
-//        $client = new Client($lobby);
-//        $response =$client->wr('/ip/hotspot/active/print');
-//        $lobbyclient =  $response;
+        $client = new Client($lobby);
+        $response =$client->wr('/ip/hotspot/active/print');
+        $lobbyclient =  $response;
 
         $room_host = \Config::get('mt.mt_host2');
         $room_user = \Config::get('mt.mt_user2');
         $room_pass = \Config::get('mt.mt_pass2');
-//            $room =
-//            (new Config())
-//                ->set('host', $room_host)
-//                ->set('user', $room_user)
-//                ->set('pass', $room_pass);
+
+            $room =
+            (new Config())
+                ->set('host', $room_host)
+                ->set('user', $room_user)
+                ->set('pass', $room_pass);
         // Initiate client with config object
-//        $client = new Client($room);
-//        $response =$client->wr('/ip/hotspot/active/print');
-//        $roomclient =  $response;
+        $client = new Client($room);
+        $response =$client->wr('/ip/hotspot/active/print');
+        $roomclient =  $response;
 
-//        $alldata = array_merge($lobbyclient,$roomclient);
+        $alldata = array_merge($lobbyclient,$roomclient);
 
-        //$useronline = count($alldata);
-        $useronline = 500;
+        $useronline = count($alldata);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $result =  DB::connection('mysql')->select('select COUNT(*) as today from history WHERE DATE_FORMAT(hdate,\'%Y-%m-%d\') = DATE_FORMAT(NOW(),\'%Y-%m-%d\');');

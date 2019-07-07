@@ -40,7 +40,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        //1,048,576 ***************
     }
 
     /**

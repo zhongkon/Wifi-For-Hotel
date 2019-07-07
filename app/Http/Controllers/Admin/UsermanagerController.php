@@ -38,49 +38,28 @@ class UsermanagerController extends Controller
     }
 
     public function getCreate()
-{
-    // Show the page
-    //$Group = WifiGroup::whereraw('Status=\'A\' and Type= \'I\'')->get();
-    
-    return view('adminmenu.edit-user');    
-}
+    {
+        // Show the page
+        return view('adminmenu.edit-user');    
+    }
 
 public function userCreate(Request $request)
 {
      //$validatedData = 
      $request->validate([
-        'MacAddress'=>'required|unique:MacAuth|regex:/^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/',
-        'Holder'=> 'required',
-        'expirydate' => 'required',
-        'GroupName' => 'required'
-      ]);      
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'type' => 'required'
+      ]);
 
-      $macA = new MacAuth();
-      $macA -> MacAddress = $request->MacAddress;
-      $macA -> Holder = $request->Holder;
-      $macA -> model = $request->Device;
-      $macA -> GroupName = $request->GroupName;
-      $macA -> Expire = $request->expirydate;
-      $macA -> Create_by = Auth::user()->name; 
+      $usr = new User();
+      $usr -> name = $request->name;
+      $usr -> email = $request->email;
+      $usr -> password = Hash::make($request->password);
+      $usr -> type = $request->usertype;
+      $usr -> save();
 
-//    $wifiuser = new WifiUser([
-//        'functionname' => $request->FunctionName,
-//        'username' => $request->username,
-//        'password' => $request->Password,
-//        'GroupName' => $request->GroupName,
-//        'qty' => $request->qty,
-//        'sale' => $request->sales,
-//        'comment' => $request->comment,
-        //'functiondate' => $request->functiondate;
-//        'functionend' => $request->expirydate,
-//        'createby' => Auth::id()
-//        ]);
-    $macA -> save();
-
-    //DBL::table('radcheck')->insert(['username' => $request->usernameinput , 'attribute' => 'User-Password','op' => '==','value' => $request->passwordinput]);
-    //DBL::table('radcheck')->insert(['username' => $request->usernameinput , 'attribute' => 'Simultaneous-Use','op' => ':=','value' => $request->qty]);
-    //DBL::table('radcheck')->insert(['username' => $request->usernameinput , 'attribute' => 'Expiration','op' => ':=','value' => $request->functionend]);
-    //DBL::table('radusergroup')->insert(['username' => $request->usernameinput , 'groupname' => $request->wifigroup]);
     return view('adminmenu.close-fancybox');
 }
 
@@ -92,28 +71,12 @@ public function userCreate(Request $request)
 
     public function saveEdit(Request $request, $id)
     {
-        $macA = MacAuth::find($id);
-        //$macA -> MacAddress = $request->MacAddress;
-        $macA -> Holder = $request->Holder;
-        $macA -> model = $request->Device;
-        $macA -> GroupName = $request->GroupName;
-        $macA -> Expire = $request->expirydate;
-        $macA -> Create_by = Auth::user()->name; 
-        $macA -> save();
-
-        //DBL::table('radcheck')
-        //    ->where('username', trim($request->usernameinput))
-        //    ->where('attribute', 'User-Password')
-        //    ->update(['value' => trim($request->passwordinput)]);
-
-        //DBL::table('radcheck')
-        //    ->where('username', trim($request->usernameinput))
-        //    ->where('attribute', 'Expiration')
-        //    ->update(['value' => trim($request->functionend)]);
-
-        //DBL::table('radusergroup')
-        //    ->where('username', trim($request->usernameinput))
-        //    ->update(['groupname' => trim($request->wifigroup)]);
+        $usr = User::find($id);
+        $usr -> name = $request->name;
+        //$usr -> email = $request->email;
+        $usr -> password = $request->password;
+        $usr -> type = $request->usertype;
+        $usr -> save();
 
         return view('adminmenu.close-fancybox');
     }
@@ -180,6 +143,7 @@ public function userCreate(Request $request)
      */
     public function destroy($id)
     {
-        //
+        DB::connection('mysql')->table('users')->where('id', trim($id))->delete();
+        return redirect('/admin/users');
     }
 }

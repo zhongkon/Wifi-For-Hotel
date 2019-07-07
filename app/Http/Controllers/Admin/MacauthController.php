@@ -56,7 +56,7 @@ public function macCreate(Request $request)
       ]);      
 
       $macA = new MacAuth();
-      $macA -> MacAddress = $request->MacAddress;
+      $macA -> MacAddress = strtoupper($request->MacAddress);
       $macA -> Holder = $request->Holder;
       $macA -> model = $request->Device;
       $macA -> GroupName = $request->GroupName;
@@ -64,10 +64,10 @@ public function macCreate(Request $request)
       $macA -> Create_by = Auth::user()->name; 
       $macA -> save();
 
-    DB::connection('mysql4')->table('radcheck')->insert(['username' => $request->MacAddress , 'attribute' => 'Cleartext-Password','op' => '==','value' => $request->MacAddress]);
-    DB::connection('mysql4')->table('radcheck')->insert(['username' => $request->MacAddress , 'attribute' => 'Expiration','op' => ':=','value' => $request->expirydate]);
-    DB::connection('mysql4')->table('radreply')->insert(['username' => $request->MacAddress , 'attribute' => 'Port-Limit','op' => ':=','value' => '1']);
-    DB::connection('mysql4')->table('radusergroup')->insert(['username' => $request->MacAddress , 'groupname' => $request->GroupName]);
+    DB::connection('mysql2')->table('radcheck')->insert(['username' => strtoupper($request->MacAddress) , 'attribute' => 'Cleartext-Password','op' => ':=','value' => strtoupper($request->MacAddress)]);
+    DB::connection('mysql2')->table('radcheck')->insert(['username' => strtoupper($request->MacAddress) , 'attribute' => 'Expiration','op' => ':=','value' => $request->expirydate]);
+    DB::connection('mysql2')->table('radreply')->insert(['username' => strtoupper($request->MacAddress) , 'attribute' => 'Port-Limit','op' => ':=','value' => '1']);
+    DB::connection('mysql2')->table('radusergroup')->insert(['username' => strtoupper($request->MacAddress) , 'groupname' => $request->GroupName]);
 
     return view('adminmenu.close-fancybox');
 }
@@ -91,10 +91,10 @@ public function saveEdit(Request $request, $id)
     $macA -> Create_by = Auth::user()->name; 
     $macA -> save();
 
-    DB::connection('mysql4')->table('radreply')->where('username', trim($request->uid))->where('attribute', 'Port-Limit')->update(['value' => trim($request->qty)]);
-    DB::connection('mysql4')->table('radusergroup')->where('username', trim($request->uid))->update(['groupname' => trim($request->GroupName)]);
-    DB::connection('mysql4')->update("update radcheck set value = '".$request->Password."' where username ='".$request->uid."' and attribute = 'Cleartext-Password'");
-    DB::connection('mysql4')->update("update radcheck set value = '".$request->expirydate."' where username ='".$request->uid."' and attribute = 'Expiration'");
+    DB::connection('mysql2')->table('radreply')->where('username', trim($request->uid))->where('attribute', 'Port-Limit')->update(['value' => trim($request->qty)]);
+    DB::connection('mysql2')->table('radusergroup')->where('username', trim($request->uid))->update(['groupname' => trim($request->GroupName)]);
+    DB::connection('mysql2')->update("update radcheck set value = '".$request->Password."' where username ='".$request->uid."' and attribute = 'Cleartext-Password'");
+    DB::connection('mysql2')->update("update radcheck set value = '".$request->expirydate."' where username ='".$request->uid."' and attribute = 'Expiration'");
 
 
     return view('adminmenu.close-fancybox');
@@ -167,9 +167,9 @@ public function saveEdit(Request $request, $id)
         //$macA->delete();
         
         DB::connection('mysql')->table('MacAuth')->where('MacAddress', trim($id))->delete();
-        DB::connection('mysql4')->table('radreply')->where('username', trim($id))->delete();
-        DB::connection('mysql4')->table('radusergroup')->where('username', trim($id))->delete();
-        DB::connection('mysql4')->table('radcheck')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radreply')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radusergroup')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radcheck')->where('username', trim($id))->delete();
 
         return redirect('/admin/mac-auth');
     }

@@ -73,7 +73,7 @@ method="post"
     <div class="form-group">
         <label>Expiry Date <span class="text-danger">*{{ $errors->first('functionend')}}</span></label>
         <div>
-            <input type="text" class="form-control" name="expirydate" value="@isset($wifiuser){{$wifiuser->fuctionend}}@endisset"/>
+            <input type="text" class="form-control" name="expirydate" value="@isset($wifiuser){{$wifiuser->functionend}}@endisset"/>
         </div>
     </div> 
     <div class="form-group">

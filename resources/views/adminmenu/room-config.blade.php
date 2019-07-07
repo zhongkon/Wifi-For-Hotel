@@ -69,7 +69,7 @@ $('#allrooms').on('draw.dt', function () {
             { data: 'id', name: 'id' },
             { data: 'Room', name: 'Room' },
             { data: 'RoomType', name: 'RoomType' },
-            { data: 'GroupName', name: 'GroupName' },
+            { data: 'Description', name: 'Description' },
             { data: 'updated_by', name: 'updated_by' },
             { data: 'created_by', name: 'created_by' },
             { data: 'updated_at', name: 'updated_at' },

@@ -20,7 +20,7 @@ class WhatwrongController extends Controller
     public function datapap()
     {
         $posauth = DB::connection('mysql2')->table('radpostauth')
-        ->select('radpostauth.authdate','radpostauth.username', 'radpostauth.pass', 'radpostauth.reply')
+        ->selectRaw('radpostauth.authdate,radpostauth.username, mid(radpostauth.pass,1,17) as pass, radpostauth.reply')
         ->orderby('radpostauth.authdate', 'DESC')
         ->take(10000);
 

@@ -41,10 +41,10 @@ public function userCreate(Request $request)
     $wifiuser -> createby = Auth::user()->name; //Auth::id();
     $wifiuser -> save();
 
-    DB::connection('mysql4')->table('radcheck')->insert(['username' => trim($request->username) , 'attribute' => 'Cleartext-Password','op' => ':=','value' => trim($request->Password)]);
-    DB::connection('mysql4')->table('radcheck')->insert(['username' => trim($request->username) , 'attribute' => 'Expiration','op' => ':=','value' => $request->expirydate]);
-    DB::connection('mysql4')->table('radreply')->insert(['username' => trim($request->username) , 'attribute' => 'Port-Limit','op' => ':=','value' => $request->qty]);
-    DB::connection('mysql4')->table('radusergroup')->insert(['username' => trim($request->username) , 'groupname' => $request->GroupName,'priority' => '1']);
+    DB::connection('mysql2')->table('radcheck')->insert(['username' => trim($request->username) , 'attribute' => 'Cleartext-Password','op' => ':=','value' => trim($request->Password)]);
+    DB::connection('mysql2')->table('radcheck')->insert(['username' => trim($request->username) , 'attribute' => 'Expiration','op' => ':=','value' => $request->expirydate]);
+    DB::connection('mysql2')->table('radreply')->insert(['username' => trim($request->username) , 'attribute' => 'Port-Limit','op' => ':=','value' => $request->qty]);
+    DB::connection('mysql2')->table('radusergroup')->insert(['username' => trim($request->username) , 'groupname' => $request->GroupName,'priority' => '1']);
 
     return view('adminmenu.close-fancybox');
 }
@@ -65,10 +65,10 @@ public function userEdit(Request $request, $id)
         'GroupName' => 'required'
       ]);   
 
-    DB::connection('mysql4')->table('radreply')->where('username', trim($request->uid))->where('attribute', 'Port-Limit')->update(['value' => trim($request->qty)]);
-    DB::connection('mysql4')->table('radusergroup')->where('username', trim($request->uid))->update(['groupname' => trim($request->GroupName)]);
-    DB::connection('mysql4')->update("update radcheck set value = '".$request->Password."' where username ='".$request->uid."' and attribute = 'Cleartext-Password'");
-    DB::connection('mysql4')->update("update radcheck set value = '".$request->expirydate."' where username ='".$request->uid."' and attribute = 'Expiration'");
+    DB::connection('mysql2')->table('radreply')->where('username', trim($request->uid))->where('attribute', 'Port-Limit')->update(['value' => trim($request->qty)]);
+    DB::connection('mysql2')->table('radusergroup')->where('username', trim($request->uid))->update(['groupname' => trim($request->GroupName)]);
+    DB::connection('mysql2')->update("update radcheck set value = '".$request->Password."' where username ='".$request->uid."' and attribute = 'Cleartext-Password'");
+    DB::connection('mysql2')->update("update radcheck set value = '".$request->expirydate."' where username ='".$request->uid."' and attribute = 'Expiration'");
 
     $wifiuser = WifiUser::find($id);
     $wifiuser -> functionname = $request->FunctionName;
@@ -78,6 +78,7 @@ public function userEdit(Request $request, $id)
     $wifiuser -> sale = $request->sales;
     $wifiuser -> comment = $request->comment;
     $wifiuser -> functionend = $request->expirydate;
+    $wifiuser -> functiondate = $request->expirydate;
     $wifiuser -> updated_by = Auth::user()->name; //Auth::id();
     $wifiuser -> save();
 
@@ -88,7 +89,7 @@ public function data()
 {
     $wifiuser = DB::table('wifiuser')
     ->join('WifiGroup', 'wifiuser.GroupName', '=', 'WifiGroup.GroupName')
-    ->select('wifiuser.id','wifiuser.functionname', 'wifiuser.username', 'wifiuser.password', 'wifiuser.GroupName','WifiGroup.Description','wifiuser.qty','wifiuser.sale')
+    ->select('wifiuser.id','wifiuser.functionname', 'wifiuser.username', 'wifiuser.password', 'wifiuser.GroupName','WifiGroup.Description','wifiuser.qty','wifiuser.functionend','wifiuser.sale')
     ->orderby('wifiuser.updated_at', 'DESC');
 
     return Datatables()->of($wifiuser)
@@ -112,9 +113,9 @@ public function data()
         //$wifiuser = WifiUser::where('username', $id)->first();
         //$wifiuser->delete();
         DB::connection('mysql')->table('wifiuser')->where('username', trim($id))->delete();
-        DB::connection('mysql4')->table('radreply')->where('username', trim($id))->delete();
-        DB::connection('mysql4')->table('radusergroup')->where('username', trim($id))->delete();
-        DB::connection('mysql4')->table('radcheck')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radreply')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radusergroup')->where('username', trim($id))->delete();
+        DB::connection('mysql2')->table('radcheck')->where('username', trim($id))->delete();
       
         return redirect('/admin/wifi-function');
     }
