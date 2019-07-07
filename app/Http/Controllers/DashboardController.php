@@ -36,37 +36,37 @@ class DashboardController extends Controller
         $loginstatdone = implode(",",$loginsuccess);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-$lobby_host = \Config::get('mt.mt_host');
-$lobby_user = \Config::get('mt.mt_user');
-$lobby_pass = \Config::get('mt.mt_pass');
-        $lobby =
-        (new Config())
-        ->set('host', $lobby_host)
-        ->set('user', $lobby_user)
-        ->set('pass', $lobby_pass);
+//$lobby_host = \Config::get('mt.mt_host');
+//$lobby_user = \Config::get('mt.mt_user');
+//$lobby_pass = \Config::get('mt.mt_pass');
+//        $lobby =
+//        (new Config())
+//        ->set('host', $lobby_host)
+//        ->set('user', $lobby_user)
+//        ->set('pass', $lobby_pass);
 
         // Initiate client with config object
-        $client = new Client($lobby);
-        $response =$client->wr('/ip/hotspot/active/print');
-        $lobbyclient =  $response;
+//        $client = new Client($lobby);
+//        $response =$client->wr('/ip/hotspot/active/print');
+//        $lobbyclient =  $response;
 
-        $room_host = \Config::get('mt.mt_host2');
-        $room_user = \Config::get('mt.mt_user2');
-        $room_pass = \Config::get('mt.mt_pass2');
+//        $room_host = \Config::get('mt.mt_host2');
+//        $room_user = \Config::get('mt.mt_user2');
+//        $room_pass = \Config::get('mt.mt_pass2');
 
-            $room =
-            (new Config())
-                ->set('host', $room_host)
-                ->set('user', $room_user)
-                ->set('pass', $room_pass);
-        // Initiate client with config object
-        $client = new Client($room);
-        $response =$client->wr('/ip/hotspot/active/print');
-        $roomclient =  $response;
+//            $room =
+//            (new Config())
+//                ->set('host', $room_host)
+//                ->set('user', $room_user)
+//                ->set('pass', $room_pass);
+//        // Initiate client with config object
+//        $client = new Client($room);
+//        $response =$client->wr('/ip/hotspot/active/print');
+//        $roomclient =  $response;
 
-        $alldata = array_merge($lobbyclient,$roomclient);
+//        $alldata = array_merge($lobbyclient,$roomclient);
 
-        $useronline = count($alldata);
+        $useronline = 500;//count($alldata);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $result =  DB::connection('mysql')->select('select COUNT(*) as today from history WHERE DATE_FORMAT(hdate,\'%Y-%m-%d\') = DATE_FORMAT(NOW(),\'%Y-%m-%d\');');
