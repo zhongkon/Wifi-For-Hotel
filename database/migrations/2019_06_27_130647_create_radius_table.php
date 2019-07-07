@@ -26,7 +26,7 @@ class CreateRadiusTable extends Migration
             $table->string('groupname',64);
             $table->string('attribute',64);
             $table->char('op',2)->default(':=');
-            $table->string('value',253);                 
+            $table->string('value',253)->nullable();                 
         });
 
 
@@ -35,7 +35,7 @@ class CreateRadiusTable extends Migration
             $table->string('username',64);
             $table->string('attribute',64);
             $table->char('op',2)->default(':=');
-            $table->string('value',253);                
+            $table->string('value',253)->nullable();                
         });
 
         Schema::connection('mysql4')->create('radusergroup', function (Blueprint $table) {

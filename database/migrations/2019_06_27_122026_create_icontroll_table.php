@@ -63,7 +63,7 @@ class CreateIcontrollTable extends Migration
             $table->string('Room');
             $table->string('RoomType');
             $table->string('GroupName');
-            $table->string('created_by');
+            $table->string('created_by')->nullable();
             $table->string('updated_by');
             $table->timestamps();
         });
