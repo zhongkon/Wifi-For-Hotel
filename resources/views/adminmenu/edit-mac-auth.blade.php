@@ -62,7 +62,7 @@ method="post"
     <input type="hidden" name="uid" value="{{{ (isset($mac) ? $mac->MacAddress : null) }}}" />
     <div class="form-group">
         <label for="MacAddress">Mac Address<span class="text-danger">*{{ $errors->first('MacAddress')}}</span></label>
-        <input type="text" @if(isset($mac)) {{"disabled"}} @endif name="MacAddress" data-parsley-trigger="change" required placeholder="Enter Function name" class="form-control" id="MacAddress" value="@isset($mac){{$mac->MacAddress}}@endisset"/>
+        <input type="text" @if(isset($mac)) {{"disabled"}} @endif name="MacAddress" data-parsley-trigger="change" required placeholder="Enter Mac Address" class="form-control" id="MacAddress" value="@isset($mac){{$mac->MacAddress}}@endisset"/>
     </div>
 
     <div class="form-group">
@@ -73,7 +73,7 @@ method="post"
     </div> 
 
     <div class="form-group">
-        <label for="Group">Group <span class="text-danger">* @php if ($errors->has('GroupName')) { echo "jong require";} @endphp </span></label>
+        <label for="Group">Group <span class="text-danger">* @php if ($errors->has('GroupName')) { echo "Group is require";} @endphp </span></label>
         @php
             $wg = "non";
         @endphp
