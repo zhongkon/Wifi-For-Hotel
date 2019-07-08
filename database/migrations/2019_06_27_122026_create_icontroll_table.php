@@ -43,7 +43,7 @@ class CreateIcontrollTable extends Migration
             $table->string('FolioNumber')->nullable();
             $table->string('strOccupancy')->nullable();
             $table->string('nameGroup')->nullable();
-            $table->integer('status');
+            $table->integer('status')->default('0');
             $table->timestamps();
         });
 
