@@ -15,42 +15,43 @@ class CreateRadiusTable extends Migration
     {
         Schema::connection('mysql4')->create('radcheck', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username',64);
-            $table->string('attribute',64);
+            $table->string('username',64)->default('');
+            $table->string('attribute',64)->default('');
             $table->char('op',2)->default(':=');
-            $table->string('value',253);            
+            $table->string('value',253)->default('');
         });
 
         Schema::connection('mysql4')->create('radgroupreply', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('groupname',64);
-            $table->string('attribute',64);
+            $table->string('groupname',64)->default('');
+            $table->string('attribute',64)->default('');
             $table->char('op',2)->default(':=');
-            $table->string('value',253)->nullable();                 
+            $table->string('value',253)->default('');
         });
 
 
         Schema::connection('mysql4')->create('radreply', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username',64);
-            $table->string('attribute',64);
+            $table->string('username',64)->unique()->default('');
+            $table->string('attribute',64)->default('');
             $table->char('op',2)->default(':=');
             $table->string('value',253)->nullable();                
         });
 
         Schema::connection('mysql4')->create('radusergroup', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username',64);
-            $table->string('groupname',64);
-            $table->integer('priority');     
+            $table->string('username',64)->default('');
+            $table->string('groupname',64)->default('');
+            $table->integer('priority')->default('1');
         });
 
         Schema::connection('mysql4')->create('radpostauth', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username',64);
-            $table->string('pass',64);
-            $table->string('reply',32);
-            $table->timestamp('authdate')->nullable();     
+            $table->string('username',64)->default('');
+            $table->string('pass',64)->default('');
+            $table->string('reply',32)->default('');
+            $table->timestamp('authdate')->useCurrent();
+            $table->engine = 'InnoDB';
         });
     }
 

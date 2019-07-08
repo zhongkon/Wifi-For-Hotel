@@ -31,7 +31,7 @@ class GuestController extends Controller
         return Datatables()->of($mac)
             ->addColumn('actions','
                 <a role="button" class="btn btn-sm btn-primary" data-fancybox data-type="iframe" data-src="{{{ URL::to(\'admin/guest-config/\' . $id . \'/edit\' ) }}}" href="javascript:;"><span class="btn-label"><i class="fa fa-pencil"></i></span>Edit</a>
-                <a role="button" id="btnDelete" href="{{{ URL::to(\'admin/guest-config/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btnDelete btn-danger"><span class="btn-label"><i class="fa fa-times"></i></span>Delete</a>
+                <a role="button" id="btnDelete" href="{{{ URL::to(\'admin/guest-config/\' . $Room . \'/delete\' ) }}}" class="btn btn-sm btnDelete btn-danger"><span class="btn-label"><i class="fa fa-times"></i></span>Delete</a>
                 ')
             ->rawColumns(['actions'])
             ->make();
@@ -83,72 +83,17 @@ class GuestController extends Controller
         ]);      
 
         $rn = new Room();
-        $rn->Room = strtoupper($request->Room);
+        $rn->Room = $request->Room;
         $rn->RoomType = $request->RoomType;
         $rn->GroupName = $request->GroupName;
         $rn->created_by = Auth::user()->name; 
         $rn->save();
 
-        DB::connection('mysql2')->table('radcheck')->insert(['username' => strtoupper($request->MacAddress) , 'attribute' => 'Cleartext-Password','op' => ':=','value' => strtoupper($request->MacAddress)]);
-        DB::connection('mysql2')->table('radcheck')->insert(['username' => strtoupper($request->MacAddress) , 'attribute' => 'Expiration','op' => ':=','value' => $request->expirydate]);
-        DB::connection('mysql2')->table('radusergroup')->insert(['username' => strtoupper($request->MacAddress) , 'groupname' => $request->GroupName]);
+        DB::connection('mysql2')->table('radcheck')->insert(['username' => $request->Room , 'attribute' => 'Cleartext-Password','op' => ':=','value' => $request->Room]);
+        DB::connection('mysql2')->table('radcheck')->insert(['username' => $request->Room , 'attribute' => 'Expiration','op' => ':=','value' => '6 Apr, 1977 20:12:23']);
+        DB::connection('mysql2')->table('radusergroup')->insert(['username' => $request->Room , 'groupname' => $request->GroupName]);
 
         return view('adminmenu.close-fancybox');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -159,7 +104,8 @@ class GuestController extends Controller
      */
     public function destroy($id)
     {
-        DB::connection('mysql')->table('Rooms')->where('id', trim($id))->delete();
+        DB::connection('mysql')->table('Rooms')->where('Room', trim($id))->delete();
+        DB::connection('mysql2')->table('radcheck')->where('username', trim($id))->delete();
         DB::connection('mysql2')->table('radreply')->where('username', trim($id))->delete();
         DB::connection('mysql2')->table('radusergroup')->where('username', trim($id))->delete();        
 

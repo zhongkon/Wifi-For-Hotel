@@ -15,69 +15,69 @@ class CreateIcontrollTable extends Migration
     {
         Schema::create('wifiuser', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('functionname');
+            $table->string('functionname')->nullable();
             $table->string('username')->unique();
-            $table->string('password');
-            $table->string('GroupName');
-            $table->integer('qty');
-            $table->string('sale');
-            $table->longText('comment');
-            $table->string('functiondate');
-            $table->string('functionend');
-            $table->string('createby');
-            $table->string('updated_by');
+            $table->string('password')->nullable();
+            $table->string('GroupName')->nullable();
+            $table->integer('qty')->nullable();
+            $table->string('sale')->nullable();
+            $table->longText('comment')->nullable();
+            $table->string('functiondate')->nullable();
+            $table->string('functionend')->nullable();
+            $table->string('createby')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
         Schema::create('history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('hdate');
-            $table->string('doer');
-            $table->string('room');
-            $table->string('password');
-            $table->string('checkout');
-            $table->timestamp('dtCI')->nullable();
-            $table->timestamp('dtCO')->nullable();
-            $table->string('strGroup');
-            $table->string('strVip');
-            $table->string('FolioNumber');
-            $table->string('strOccupancy');
-            $table->string('nameGroup');
+            $table->dateTime('hdate')->nullable();
+            $table->string('doer')->nullable();
+            $table->string('room')->nullable();
+            $table->string('password')->nullable();
+            $table->string('checkout')->nullable();
+            $table->timestamp('dtCI')->useCurrent();
+            $table->timestamp('dtCO')->useCurrent();
+            $table->string('strGroup')->nullable();
+            $table->string('strVip')->nullable();
+            $table->string('FolioNumber')->nullable();
+            $table->string('strOccupancy')->nullable();
+            $table->string('nameGroup')->nullable();
             $table->integer('status');
             $table->timestamps();
         });
 
         Schema::create('MacAuth', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('MacAddress');
-            $table->string('Holder');
-            $table->string('model');
-            $table->string('Expire');
-            $table->string('GroupName');
-            $table->string('Create_by');
+            $table->string('MacAddress')->nullable();
+            $table->string('Holder')->nullable();
+            $table->string('model')->nullable();
+            $table->string('Expire')->nullable();
+            $table->string('GroupName')->nullable();
+            $table->string('Create_by')->nullable();
             $table->timestamps();
         });
 
         Schema::create('Rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('Room');
-            $table->string('RoomType');
-            $table->string('GroupName');
+            $table->string('Room')->nullable();
+            $table->string('RoomType')->nullable();
+            $table->string('GroupName')->nullable();
             $table->string('created_by')->nullable();
-            $table->string('updated_by');
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
         Schema::create('WifiGroup', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('GroupName');
-            $table->integer('MaxConcurrent');
-            $table->integer('Upload');
-            $table->integer('Download');
-            $table->string('Redirect');
-            $table->string('Description');
-            $table->string('Status',1);
-            $table->string('Type',1);
+            $table->string('GroupName')->nullable();
+            $table->integer('MaxConcurrent')->nullable();
+            $table->integer('Upload')->nullable();
+            $table->integer('Download')->nullable();
+            $table->string('Redirect')->nullable();
+            $table->string('Description')->nullable();
+            $table->string('Status',1)->nullable();
+            $table->string('Type',1)->nullable();
             $table->timestamps();
         });
 
