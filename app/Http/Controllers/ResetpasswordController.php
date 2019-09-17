@@ -45,8 +45,8 @@ class ResetpasswordController extends Controller
         DB::connection('mysql2')->update("update radcheck set value = '".trim($request->input('Password'))."' where username ='".trim($request->input('userName'))."' and attribute = 'Cleartext-Password'");
         DB::connection('mysql2')->update("update radcheck set value = '".$request->datecheckout."' where username ='".trim($request->input('userName'))."' and attribute = 'Expiration'");
 
-        DB::connection('mysql3')->update("update radcheck set value = '".trim($request->input('Password'))."' where username ='".trim($request->input('userName'))."' and attribute = 'Cleartext-Password'");
-        DB::connection('mysql3')->update("update radcheck set value = '".$request->datecheckout."' where username ='".trim($request->input('userName'))."' and attribute = 'Expiration'");
+        //DB::connection('mysql3')->update("update radcheck set value = '".trim($request->input('Password'))."' where username ='".trim($request->input('userName'))."' and attribute = 'Cleartext-Password'");
+        //DB::connection('mysql3')->update("update radcheck set value = '".$request->datecheckout."' where username ='".trim($request->input('userName'))."' and attribute = 'Expiration'");
 
         DB::connection('mysql')->insert('insert into history(hdate, doer, room, password, checkout, created_at,dtCI,dtCO,updated_at)VALUES (\'' . date("Y-m-d H:i:s") .'\', \''. Auth::user()->name .'\', \''. $request->input('userName') .'\', \''.$request->input('Password').'\', \''.str_replace(",","",$request->input('datecheckout')).'\', \''. date("Y-m-d H:i:s")  .'\', \''. date("Y-m-d H:i:s")  .'\', \''. date("Y-m-d H:i:s")  .'\', \''. date("Y-m-d H:i:s") .'\');');
     
