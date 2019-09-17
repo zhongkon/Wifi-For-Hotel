@@ -6,7 +6,7 @@ Software นี้ทำขึ้นเพื่อใช้ควบคุม�
 
 
 ## How to install
-cp .env.example .env
+cp .env.example .env </br>
 composer install
 
 
