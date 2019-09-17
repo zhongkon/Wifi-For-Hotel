@@ -6,8 +6,8 @@ Software นี้ทำขึ้นเพื่อใช้ควบคุม�
 
 ## How to install
 
-cp .env.example .env
-composer install
+ git clone https://github.com/zhongkon/Wifi-For-Hotel.git</br>
+composer install</br>
 
 
 ## License
