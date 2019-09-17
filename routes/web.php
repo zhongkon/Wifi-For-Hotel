@@ -55,16 +55,18 @@ Route::group(['prefix' => 'admin'], function(){
         
         Route::get('/wifi-function/create', 'Admin\WifiFunctionController@getCreate');
         Route::post('/wifi-function/create', 'Admin\WifiFunctionController@userCreate');
-///////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////
         Route::get('/users', 'Admin\UsermanagerController@index');
         Route::get('/users/data', 'Admin\UsermanagerController@Data');
 
         Route::get('/users/{id}/edit', 'Admin\UsermanagerController@getEdit');
-        Route::post('/users/{id}/edit', 'Admin\UsermanagerController@userEdit');
+        Route::post('/users/{id}/edit', 'Admin\UsermanagerController@saveEdit');
 
         Route::get('/users/create', 'Admin\UsermanagerController@getCreate');
         Route::post('/users/create', 'Admin\UsermanagerController@userCreate');
+
+        Route::get('/users/{id}/delete', 'Admin\UsermanagerController@destroy');
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////        
@@ -72,7 +74,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/group-config/data', 'Admin\GroupController@data');
         
         Route::get('/group-config/create', 'Admin\GroupController@getCreate');
-        Route::post('/group-config/create', 'Admin\GroupController@macCreate');
+        Route::post('/group-config/create', 'Admin\GroupController@postCreate');
 
         Route::get('/group-config/{id}/edit', 'Admin\GroupController@getEdit');
         Route::post('/group-config/{id}/edit', 'Admin\GroupController@saveEdit');

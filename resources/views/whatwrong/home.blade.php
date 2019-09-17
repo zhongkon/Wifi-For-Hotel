@@ -78,10 +78,10 @@
     <!--Content here-->
     <div class="row">
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">						
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h3><i class="fa fa-table"></i>สถาณะการ Login Wifi [RAMADAPLAZA,Ramada@public]</h3>                
+                        <h3><i class="fa fa-table"></i>User Login Logs</h3>                
                     </div>
                         
                     <div class="card-body">
@@ -101,31 +101,6 @@
                     </div>														
                 </div><!-- end card-->					
             </div>
-            
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">						
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h3><i class="fa fa-table"></i> สถาณะการ Login Wifi 802.11x</h3>                                                        
-                    </div>
-                        
-                    <div class="card-body">
-                        <div class="table-responsive">
-                        <table id="wififail" class="table table-bordered table-hover display">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>User Name</th>
-                                    <th>Password</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        </div>
-                        
-                    </div>														
-                </div><!-- end card-->					
-            </div>
-
     </div>
 
 

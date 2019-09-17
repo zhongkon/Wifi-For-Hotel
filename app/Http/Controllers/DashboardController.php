@@ -21,14 +21,14 @@ class DashboardController extends Controller
     {
         $loginsuccess = array(0,0,0,0,0,0,0,0,0,0,0,0);
         $loginfail = array(0,0,0,0,0,0,0,0,0,0,0,0);
-        $loginstat =  DB::connection('mysql3')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Reject\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
+        $loginstat =  DB::connection('mysql2')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Reject\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
 
         foreach ($loginstat as $a):
             $loginfail[$a->m] = $a->c; 
         endforeach;
         $loginstatfail = implode(",",$loginfail);
 
-        $loginstat =  DB::connection('mysql3')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Accept\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
+        $loginstat =  DB::connection('mysql2')->select('select DISTINCT MONTH(authdate) as m, count(*) as c from radpostauth where reply = \'Access-Accept\' AND YEAR(authdate) =YEAR(NOW()) group by MONTH(authdate)');
 
         foreach ($loginstat as $a):
             $loginsuccess[$a->m] = $a->c; 

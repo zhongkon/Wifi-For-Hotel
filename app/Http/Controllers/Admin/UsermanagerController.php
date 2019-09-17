@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\SystemUser;
 use Datatables;
-
+use DB;
 class UsermanagerController extends Controller
 {
     /**
@@ -23,7 +23,7 @@ class UsermanagerController extends Controller
 
     public function Data()
     {
-        $users = User::select(['id','name','email','type','created_at','updated_at']);
+        $users = SystemUser::select(['id','name','email','type','created_at','updated_at']);
 
         return Datatables()->of($users)
         ->addColumn('actions','
@@ -31,7 +31,7 @@ class UsermanagerController extends Controller
         <a role="button" id="btnDelete" href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btnDelete btn-danger"><span class="btn-label"><i class="fa fa-times"></i></span>Delete</a>
         ')
         ->editColumn('type', function($data) {
-            return ($data->type == 1) ? "Sys Admin": "Front Office";
+            return ($data->type == 0) ? "Sys Admin": "Front Office";
           })
         ->rawColumns(['actions'])
         ->make();
@@ -50,13 +50,13 @@ public function userCreate(Request $request)
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
-        'type' => 'required'
+        'usertype' => 'required'
       ]);
 
-      $usr = new User();
+      $usr = new SystemUser();
       $usr -> name = $request->name;
       $usr -> email = $request->email;
-      $usr -> password = Hash::make($request->password);
+      $usr -> password = bcrypt($request->password);
       $usr -> type = $request->usertype;
       $usr -> save();
 
@@ -65,75 +65,21 @@ public function userCreate(Request $request)
 
     public function getEdit($id)
     {
-        $user = User::find($id);
+        $user = SystemUser::find($id);
         return view('adminmenu.edit-user',compact('user'));
     }
 
     public function saveEdit(Request $request, $id)
     {
-        $usr = User::find($id);
+        $usr = SystemUser::find($id);
         $usr -> name = $request->name;
-        //$usr -> email = $request->email;
-        $usr -> password = $request->password;
+        $usr -> password = bcrypt($request->password);
         $usr -> type = $request->usertype;
         $usr -> save();
 
         return view('adminmenu.close-fancybox');
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -142,8 +88,10 @@ public function userCreate(Request $request)
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        DB::connection('mysql')->table('users')->where('id', trim($id))->delete();
+    {   
+        if ($id <> 1) {
+            DB::connection('mysql')->table('users')->where('id', trim($id))->delete();
+        }
         return redirect('/admin/users');
     }
 }

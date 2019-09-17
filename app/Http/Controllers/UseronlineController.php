@@ -22,6 +22,27 @@ class UseronlineController extends Controller
 
     public function data()
     {
+        $mt_host = \Config::get('mt.mt_host');
+        $mt_user = \Config::get('mt.mt_user');
+        $mt_pass = \Config::get('mt.mt_pass');
+        $mthost =
+        (new Config())
+            ->set('host', $mt_host)
+            ->set('user', $mt_user)
+            ->set('pass', $mt_pass);
+
+        // Initiate client with config object
+        $client = new Client($mthost);
+        $response =$client->wr('/ip/hotspot/active/print');  
+        $alldata = response;
+
+        //var_dump($request);
+
+        return Datatables()->of($alldata)->make();
+    }
+
+    public function data2()
+    {
         $lobby_host = \Config::get('mt.mt_host');
         $lobby_user = \Config::get('mt.mt_user');
         $lobby_pass = \Config::get('mt.mt_pass');
@@ -68,16 +89,6 @@ class UseronlineController extends Controller
         return redirect('/admin/useronline');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -94,37 +105,4 @@ class UseronlineController extends Controller
         echo $value; 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

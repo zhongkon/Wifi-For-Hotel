@@ -39,11 +39,11 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
 						<div class="card mb-8">
 							<div class="card-header">
-								<h3><i class="fa fa-hand-pointer-o"></i> Wifi Mac Authentication</h3>
+								<h3><i class="fa fa-hand-pointer-o"></i> System User Create & Edit</h3>
 							</div>
 								
 							<div class="card-body">
-<!--
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -53,9 +53,10 @@
         </ul>
     </div>
 @endif
--->
 
-                    <form method="POST" action="{{ route('register') }}">
+
+                    <form method="POST" action="@if(isset($user)){{ URL::to('/admin/users/'.$user->id.'/edit') }}
+	        @else{{ URL::to('/admin/users/create') }}@endif">
                         @csrf
                         
                         <div class="form-group row">

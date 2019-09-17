@@ -59,23 +59,27 @@ $('#allwifiuser').on('draw.dt', function () {
   //      eventFiredBtnDeleteSweetAlert();
   // })
 
-
-  .DataTable({
-    responsive: true,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/group-config/data") }}',
-    columns: [
-            //{ data: '.id', name: '.id' },
-            { data: 'GroupName', name: 'GroupName' },
-            { data: 'MaxConcurrent', name: 'MaxConcurrent' },
-            { data: 'Upload', name: 'Upload' },
-            { data: 'Download', name: 'Download' },
-            { data: 'Redirect', name: 'Redirect' },
-            { data: 'Description', name: 'Description' },
-            { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                        
-          ]  
-});
+$(function() {
+                var table = $('#allwifiGroup').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('admin/group-config/data') }}',
+                columns: [
+                    //{ data: '.id', name: '.id' },
+                    { data: 'GroupName', name: 'GroupName' },
+                    { data: 'MaxConcurrent', name: 'MaxConcurrent' },
+                    { data: 'Upload', name: 'Upload' },
+                    { data: 'Download', name: 'Download' },
+                    { data: 'Redirect', name: 'Redirect' },
+                    { data: 'Description', name: 'Description' },
+                    { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                        
+                ]  
+                });        
+                    
+                setInterval( function () {
+                table.ajax.reload();
+                }, 30000 );
+    });
 
 </script>	
 
@@ -91,7 +95,7 @@ $('#allwifiuser').on('draw.dt', function () {
             <div class="pull-right">
                     <div class="pull-right">
                             <!--a role="button" href="/admin/wifi-function/create" class="btn btn-primary iframe cboxElement"><span class="btn-label"><i class="fa fa-check"></i></span>New User</a-->
-                            <a role="button" class="btn btn-primary" data-fancybox data-type="iframe" data-src="/admin/wifi-function/create" href="javascript:;"><span class="btn-label"><i class="fa fa-check"></i></span>New Group</a>
+                            <a role="button" class="btn btn-primary" data-fancybox data-type="iframe" data-src="/admin/group-config/create" href="javascript:;"><span class="btn-label"><i class="fa fa-check"></i></span>New Group</a>
                     </div>
                 </div>
         </div>
@@ -99,10 +103,10 @@ $('#allwifiuser').on('draw.dt', function () {
         <div class="card-body">
             
             <div class="table-responsive">
-            <table id="allwifiuser" class="table table-bordered table-hover display">
+            <table id="allwifiGroup" class="table table-bordered table-hover display">
             <thead>
                 <tr>
-                    <th>Group Name</th>
+                    <th>Group Code</th>
                     <th>Concurrent</th>
                     <th>Upload</th>
                     <th>Download</th>

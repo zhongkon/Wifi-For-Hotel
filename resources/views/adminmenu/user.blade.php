@@ -51,22 +51,26 @@ $('#systemuser').on('draw.dt', function () {
       eventFiredBtnDeleteSweetAlert(this);
   })
 
-.DataTable({
-    responsive: true,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/users/data") }}',
-    columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'type', name: 'type' },
-            { data: 'created_at', name: 'created_at','searchable': false, 'orderable': false },
-            { data: 'updated_at', name: 'updated_at' },
-            { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                    
-          ]  
-});
-
+$(function() {
+                var table = $('#systemuser').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('admin/users/data') }}',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email' },
+                    { data: 'type', name: 'type' },
+                    { data: 'created_at', name: 'created_at','searchable': false, 'orderable': false },
+                    { data: 'updated_at', name: 'updated_at' },
+                    { data: 'actions', name: 'actions','searchable': false, 'orderable': false }
+                ]
+                });
+                    
+                setInterval( function () {
+                table.ajax.reload();
+                }, 30000 );
+    });
 </script>	
 
 <!-- END Java Script for this page -->
