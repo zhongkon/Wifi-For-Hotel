@@ -70,8 +70,8 @@ class GroupController extends Controller
             $Group->Type = $request->Type;
             $Group->info = $request->info;
             $Group->save();
-            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Down','op' => ':=','value' => $request->Download]);
-            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Up','op' => ':=','value' => $request->Upload]);
+            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Down','op' => ':=','value' => $request->Download * 1048576]);
+            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Up','op' => ':=','value' => $request->Upload * 1048576]);
             #DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'Port-Limit','op' => ':=','value' => $request->MaxConcurrent]);
             DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Redirection-URL','op' => ':=','value' => $request->Redirect]);
         }
@@ -88,8 +88,8 @@ class GroupController extends Controller
             $Group->Type = $request->Type;
             $Group->info = $request->info;
             $Group->save();
-            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Down','op' => ':=','value' => $request->Download]);
-            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Up','op' => ':=','value' => $request->Upload]);
+            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Down','op' => ':=','value' => $request->Download * 1048576]);
+            DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Bandwidth-Max-Up','op' => ':=','value' => $request->Upload * 1048576]);
             DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'Port-Limit','op' => ':=','value' => $request->MaxConcurrent]);
             DB::connection('mysql2')->table('radgroupreply')->insert(['groupname' => $request->GroupName , 'attribute' => 'WISPr-Redirection-URL','op' => ':=','value' => $request->Redirect]);
         }
