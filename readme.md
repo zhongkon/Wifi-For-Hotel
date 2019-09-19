@@ -9,6 +9,7 @@ Software นี้ทำขึ้นเพื่อใช้ควบคุม�
  git clone https://github.com/zhongkon/Wifi-For-Hotel.git</br>
 composer install</br>
 cp .env.example .env</br>
+php artisan key:generate </br>
 php artisan  migrate:fresh</br>
 php artisan db:seed
 
