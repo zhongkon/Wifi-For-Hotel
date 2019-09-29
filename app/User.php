@@ -46,4 +46,7 @@ class User extends Authenticatable
     public function isUser(){
         return $this->type === self::USER_TYPE;
     }
+    public function isDisableUser(){
+        return $this->type === self::DEFAULT_TYPE;
+    }
 }

@@ -14,7 +14,13 @@ class WifiFunctionController extends Controller
 {
     public function index()
 {
-    return view('adminmenu.wifi-function');
+    if(auth()->user()->isAdmin()) {
+        return view('adminmenu.wifi-function');
+    }elseif(auth()->user()->isUser()){
+        return redirect('/dashboard');
+    } else {
+        return redirect('/home');
+    }
 }
 
 public function userCreate(Request $request)

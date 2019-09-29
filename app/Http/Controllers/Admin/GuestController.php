@@ -18,7 +18,14 @@ class GuestController extends Controller
      */
     public function index()
     {
-        return view('adminmenu.room-config');
+        if(auth()->user()->isAdmin()) {
+            return view('adminmenu.room-config');
+        }elseif(auth()->user()->isUser()){
+            return redirect('/dashboard');
+        } else {
+            return redirect('/home');
+        }   
+        
     }
 
     public function data()

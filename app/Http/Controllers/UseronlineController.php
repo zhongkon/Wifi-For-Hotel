@@ -33,12 +33,13 @@ class UseronlineController extends Controller
 
         // Initiate client with config object
         $client = new Client($mthost);
-        $response =$client->wr('/ip/hotspot/active/print');  
-        $alldata = response;
+        $query = (new Query('/ip/hotspot/active/print'));
+
+        $user = $client->query($query)->read();
 
         //var_dump($request);
+        return Datatables()->of($user)->make();
 
-        return Datatables()->of($alldata)->make();
     }
 
     public function data2()

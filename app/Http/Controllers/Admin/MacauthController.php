@@ -10,6 +10,10 @@ use auth;
 use App\MacAuth;
 use App\WifiGroup;
 
+use RouterOS\Client;
+use RouterOS\Config;
+use RouterOS\Query;
+
 class MacauthController extends Controller
 {
     /**
@@ -19,7 +23,14 @@ class MacauthController extends Controller
      */
     public function index()
     {
-        return view('adminmenu.mac-auth');
+        if(auth()->user()->isAdmin()) {
+            return view('adminmenu.mac-auth');
+        }elseif(auth()->user()->isUser()){
+            return redirect('/dashboard');
+        } else {
+            return redirect('/home');
+        }
+        
     }
 
     public function data()
@@ -105,9 +116,46 @@ public function saveEdit(Request $request, $id)
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function test()
     {
-        //
+
+        $config =
+    (new Config())
+        ->set('host', '192.168.69.10')
+        ->set('port', 8728)
+        ->set('pass', 'xFnRPg6dtu76wj8T')
+        ->set('user', 'zeroapi');
+    // Initiate client with config object
+    $client = new Client($config);
+
+
+    // Build query
+$query =
+(new Query('/ip/hotspot/ip-binding/add'))
+    ->equal('mac-address', '00:00:00:00:40:29')
+    ->equal('type', 'bypassed')
+    ->equal('comment', 'testcomment');
+// Add user
+$out = $client->query($query)->read();
+print_r($out);
+
+
+        // Remove user
+    $query =
+    (new Query('/ip/hotspot/ip-binding/print'))
+        ->where('mac-address', '00:00:00:00:00:A9');
+    // Get user from RouterOS by query
+    $user = $client->query($query)->read();
+    if (!empty($user[0]['.id'])) {
+    $userId     = $user[0]['.id'];
+    // Remove MACa address
+    $query =
+        (new Query('/ip/hotspot/ip-binding/remove'))
+            ->equal('.id', $userId);
+    // Remove user from RouterOS
+    $removeUser = $client->query($query)->read();
+    print_r($removeUser);
+    }
     }
 
     /**

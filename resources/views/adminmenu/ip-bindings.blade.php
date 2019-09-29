@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Wifi Group')
+@section('title', 'Mac Address Authentication (Hotsport Ip Binding)')
 
 @section('cssaddon')
 <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -12,7 +12,6 @@
 @section('jsaddon')
 
 <!-- BEGIN Java Script for this page -->
-
 
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -50,7 +49,7 @@ var eventFiredBtnDeleteSweetAlert = function(jE) {
 
 // START CODE FOR BASIC DATA TABLE 
 
-$('#allwifiuser').on('draw.dt', function () {
+$('#AllMac').on('draw.dt', function () {
       //console.log('draw.dt');
       eventFiredBtnDeleteSweetAlert(this);
   })
@@ -59,27 +58,31 @@ $('#allwifiuser').on('draw.dt', function () {
   //      eventFiredBtnDeleteSweetAlert();
   // })
 
-$(function() {
-                var table = $('#allwifiGroup').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ url('admin/group-config/data') }}',
-                columns: [
-                    //{ data: '.id', name: '.id' },
-                    { data: 'GroupName', name: 'GroupName' },
-                    { data: 'Description', name: 'Description' },
-                    { data: 'MaxConcurrent', name: 'MaxConcurrent' },
-                    { data: 'Upload', name: 'Upload' },
-                    { data: 'Download', name: 'Download' },
-                    { data: 'Redirect', name: 'Redirect' },
-                    { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                        
-                ]  
-                });        
-                    
-                setInterval( function () {
-                table.ajax.reload();
-                }, 30000 );
-    });
+
+  .DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: '{{ url("/admin/ip-binding/data") }}',
+    columns: [
+            //{ data: '.id', name: '.id' },
+            { data: 'MacAddress', name: 'MacAddress' },
+            { data: 'Holder', name: 'Holder' },
+            { data: 'model', name: 'model' },
+            { data: 'info', name: 'info' },            
+            { data: 'created_at', name: 'created_at' },
+            { data: 'Create_by', name: 'Create_by' },
+            { data: 'actions', name: 'actions','searchable': false, 'orderable': false }                        
+          ]  
+});
+
+
+$(".fancybox").fancybox({
+    type: 'iframe',
+    afterClose: function () { // USE THIS IT IS YOUR ANSWER THE KEY WORD IS "afterClose"
+        parent.location.reload(true);
+    }
+});
 
 </script>	
 
@@ -91,11 +94,10 @@ $(function() {
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
     <div class="card mb-3">
         <div class="card-header">
-            <h3><i class="fa fa-table"></i>Create Group Wifi</h3>
+            <h3><i class="fa fa-table"></i>Add Mac Address to Mikrotik Hotsport Ip Binding</h3>
             <div class="pull-right">
-                    <div class="pull-right">
-                            <!--a role="button" href="/admin/wifi-function/create" class="btn btn-primary iframe cboxElement"><span class="btn-label"><i class="fa fa-check"></i></span>New User</a-->
-                            <a role="button" class="btn btn-primary" data-fancybox data-type="iframe" data-src="/admin/group-config/create" href="javascript:;"><span class="btn-label"><i class="fa fa-check"></i></span>New Group</a>
+                    <div class="pull-right">                            
+                            <a role="button" class="btn btn-primary fancybox" data-fancybox data-type="iframe" data-src="/admin/ip-binding/create" href="javascript:;"><span class="btn-label"><i class="fa fa-check"></i></span>New Mac Address Binding</a>
                     </div>
                 </div>
         </div>
@@ -103,15 +105,15 @@ $(function() {
         <div class="card-body">
             
             <div class="table-responsive">
-            <table id="allwifiGroup" class="table table-bordered table-hover display">
+            <table id="AllMac" class="table table-bordered table-hover display">
             <thead>
                 <tr>
-                    <th>Group Code</th>
-                    <th>Description</th>
-                    <th>Concurrent</th>
-                    <th>Upload</th>
-                    <th>Download</th>
-                    <th>Redirect</th>
+                    <th>Mac Address</th>
+                    <th>Holder</th>
+                    <th>Device Detail</th>
+                    <th>Info</th>
+                    <th>Create Date</th>
+                    <th>Createtor</th>
                     <th>Action</th>
                 </tr>
             </thead>									

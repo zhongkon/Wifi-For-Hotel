@@ -21,23 +21,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware' => ['auth']], function () {
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        Route::group(['middleware' => ['admin']], function(){
+                Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-Route::get('/resetpassword', 'ResetpasswordController@index');
-Route::put('/resetpassword/save', 'ResetpasswordController@store');
+                Route::get('/resetpassword', 'ResetpasswordController@index');
+                Route::put('/resetpassword/save', 'ResetpasswordController@store');
 
-Route::get('/audit-trail', 'AudittrailController@index');
-Route::get('/audit-trail/data', 'AudittrailController@data');
+                Route::get('/audit-trail', 'AudittrailController@index');
+                Route::get('/audit-trail/data', 'AudittrailController@data');
 
-Route::get('/what-wrong', 'WhatwrongController@index');
-Route::get('/what-wrong/datapap', 'WhatwrongController@datapap');
-Route::get('/what-wrong/datavlan', 'WhatwrongController@datavlan');
+                Route::get('/what-wrong', 'WhatwrongController@index');
+                Route::get('/what-wrong/datapap', 'WhatwrongController@datapap');
+                Route::get('/what-wrong/datavlan', 'WhatwrongController@datavlan');
 
-Route::get('/user-online', 'UseronlineController@index');
-Route::get('/user-online/data', 'UseronlineController@data');
+                Route::get('/user-online', 'UseronlineController@index');
+                Route::get('/user-online/data', 'UseronlineController@data');
 
-Route::get('/user-online/test', 'UseronlineController@show');
-
+        });
 });
 
 //Route for admin
@@ -66,8 +66,8 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/users/create', 'Admin\UsermanagerController@getCreate');
         Route::post('/users/create', 'Admin\UsermanagerController@userCreate');
 
+        Route::get('/users/{id}/disable', 'Admin\UsermanagerController@disableuser');
         Route::get('/users/{id}/delete', 'Admin\UsermanagerController@destroy');
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////        
         Route::get('/group-config', 'Admin\GroupController@index');
@@ -92,7 +92,16 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/mac-auth/{id}/edit', 'Admin\MacauthController@saveEdit');
 
         Route::get('/mac-auth/{id}/delete', 'Admin\MacauthController@destroy');
-        
+       
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        Route::get('/ip-binding', 'Admin\IpbindingsController@index');
+        Route::get('/ip-binding/data', 'Admin\IpbindingsController@data');
+
+        Route::get('/ip-binding/create', 'Admin\IpbindingsController@getCreate');
+        Route::post('/ip-binding/create', 'Admin\IpbindingsController@macCreate');
+
+        Route::get('/ip-binding/{id}/delete', 'Admin\IpbindingsController@destroy');
+
 //////////////////////////////////////////////////////////////////////////////////////////////
         Route::get('/guest-config', 'Admin\GuestController@index');
         Route::get('/guest-config/data', 'Admin\GuestController@data');

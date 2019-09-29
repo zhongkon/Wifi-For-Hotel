@@ -43,6 +43,29 @@ var eventFiredBtnDeleteSweetAlert = function(jE) {
             }
         });
     });
+
+    $(jE).on('click', '.btnDisable', function(e) {
+        e.preventDefault();
+        var link = $(this).attr('href');
+        var btnDelete = $(this);
+        swal({
+            title: 'Are you sure?',
+            text: "Do you want to disable this account!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, disable it!'
+            }).then(function(isConfirm) {
+            if (isConfirm) {
+                //btnDelete.closest('form').submit();
+                swal("Disable!", "Your record has been disble.", "success");
+                window.location.href = link;
+            }else {
+                  swal("Error", "Not Disable", "error");
+            }
+        });
+    });
 };
 //eventFiredBtnDeleteSweetAlert();
 
@@ -99,7 +122,7 @@ $(function() {
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>type</th>
+                    <th>User type</th>
                     <th>insert</th>
                     <th>update</th>
                     <th>Action</th>

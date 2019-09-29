@@ -36,9 +36,8 @@
     <div class="col-xs-12 col-sm-12 col-md-auto col-lg-6 col-xl-6">
         <div class="card mb-3">
             <div class="card-header">
-                <h3><i class="fa fa-user"></i> เปลี่ยนรหัสผ่านให้กับแขกเท่านั้น!</h3>
-                ใช้สำหรับ เปลี่ยนรหัสผ่านให้กับแขกเท่านั้น!ไม่สามารถเพิ่มผู้ใช้งานใหม่ได้รูปแบบในการแก้ไข<br>
-                ป้อน เบอร์ห้องต้องเป็นเลข 4 หลักเท่านี้นถ้าห้องใหนเป็นเลข 3 หลักให้เติม 0 ใว้ข้างหน้านด้วย
+                <h3><i class="fa fa-user"></i> Reset wifi password for guest room!</h3>
+               
             </div>
                 
             <div class="card-body">
@@ -47,7 +46,7 @@
             {{ method_field('PUT') }}
                 <div class="form-group">
                     <label for="userName">User Name<span class="text-danger">*</span></label>
-                    <input type="text" name="userName" data-parsley-trigger="change" required placeholder="Enter user name" class="form-control" id="userName">
+                    <input type="text" name="userName" data-parsley-trigger="change" required placeholder="Enter Room Number" class="form-control" id="userName">
                 </div>
 
                 <div class="form-group">

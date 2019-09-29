@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    You are logged in!<br/>
+                    please contact your administrator to re-activate your account
                 </div>
             </div>
         </div>

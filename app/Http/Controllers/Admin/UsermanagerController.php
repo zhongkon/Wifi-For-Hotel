@@ -17,9 +17,14 @@ class UsermanagerController extends Controller
     public function index(Request $request)
     {
 
-        return view('adminmenu.user');
+        if(auth()->user()->isAdmin()) {
+            return view('adminmenu.user');
+        }elseif(auth()->user()->isUser()){
+            return redirect('/dashboard');
+        } else {
+            return redirect('/home');
+        }        
     }
-
 
     public function Data()
     {
@@ -27,11 +32,22 @@ class UsermanagerController extends Controller
 
         return Datatables()->of($users)
         ->addColumn('actions','
-        <a role="button" class="btn btn-sm btn-primary" data-fancybox data-type="iframe" data-src="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" href="javascript:;"><span class="btn-label"><i class="fa fa-pencil"></i></span>Edit</a>
-        <a role="button" id="btnDelete" href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btnDelete btn-danger"><span class="btn-label"><i class="fa fa-times"></i></span>Delete</a>
+        {!! ($id > 1)?"
+        <a role=\"button\" class=\"btn btn-sm btn-primary\" data-fancybox data-type=\"iframe\" data-src=\"/admin/users/$id/edit\" href=\"javascript:;\"><span class=\"btn-label\"><i class=\"fa fa-pencil\"></i></span>Edit</a>
+        <a role=\"button\" id=\"btnDisable\" href=\"/admin/users/$id/disable\" class=\"btn btn-sm btnDisable btn-warning\"><span class=\"btn-label\"><i class=\"fa fa-times\"></i></span>Disable</a>
+        <a role=\"button\" id=\"btnDelete\" href=\"/admin/users/$id/delete\" class=\"btn btn-sm btnDelete btn-danger\"><span class=\"btn-label\"><i class=\"fa fa-times\"></i></span>Delete</a> ":""; !!}
         ')
         ->editColumn('type', function($data) {
-            return ($data->type == 0) ? "Sys Admin": "Front Office";
+            if ($data->type == 0){
+                return "Sys Admin";
+            }
+            if ($data->type == 1){
+                return "Front Office";
+            }
+            if ($data->type == 2){
+                return "Disable";
+            }
+            //return ($data->type == 0) ? "Sys Admin": "Front Office";
           })
         ->rawColumns(['actions'])
         ->make();
@@ -91,6 +107,16 @@ public function userCreate(Request $request)
     {   
         if ($id <> 1) {
             DB::connection('mysql')->table('users')->where('id', trim($id))->delete();
+        }
+        return redirect('/admin/users');
+    }
+
+    public function disableuser($id)
+    {   
+        if ($id <> 1) {
+            $usr = SystemUser::find($id);
+            $usr -> type = 2;
+            $usr -> save();
         }
         return redirect('/admin/users');
     }

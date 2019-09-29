@@ -260,6 +260,7 @@
 								<ul class="list-unstyled">
                                     <li class="{{ (request()->is('admin/wifi-function')) ? 'active' : '' }}"><a href="/admin/wifi-function">Function Wifi Services </a></li>
                                     <li class="{{ (request()->is('admin/mac-auth')) ? 'active' : '' }}"><a href="/admin/mac-auth"> MAC Address Auth</a></li>
+                                    <li class="{{ (request()->is('admin/ip-binding')) ? 'active' : '' }}"><a href="/admin/ip-binding"> MAC Address Bypass</a></li>
                                     <li class="{{ (request()->is('admin/group-config')) ? 'active' : '' }}"><a href="/admin/group-config" >Wifi Group Config</a></li>
                                     <li class="{{ (request()->is('admin/guest-config')) ? 'active' : '' }}"><a href="/admin/guest-config" >Guest Wifi Config</a></li>
 									<li class="{{ (request()->is('admin/users')) ? 'active' : '' }}"><a href="/admin/users" >User Manager</a></li>
